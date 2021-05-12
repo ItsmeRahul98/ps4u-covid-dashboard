@@ -1,0 +1,51 @@
+.sidebar {
+  width: 19%;
+  height: 100%;
+  z-index: 1;
+  background-color: #f5f5f5;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style-type: none;
+      cursor: pointer;
+      list-style-type: none;
+      text-align: left;
+      padding: 10px 0 10px 10px;
+      border-bottom: 1px solid #ccc;
+      color: #00000080;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .selected {
+      background: #eee;
+      color: #000;
+      font-weight: 700;
+
+      .subMenu {
+        transition: height 0.6s linear;
+        height: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        .submenuLine {
+          color: #545454;
+          font-size: 14px;
+          cursor: pointer;
+          padding: 10px 15px 10px 15px;
+        }
+
+        &.active {
+          height: fit-content !important;
+          opacity: 1;
+          transition: height 0.6s linear;
+        }
+      }
+    }
+    .submenu .active {
+      display: none;
+    }
+  }
+}
