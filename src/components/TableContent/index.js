@@ -1,11 +1,62 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./TableContent.scss";
 import { Edit, Trash2 } from "react-feather";
 
-function TableContent() {
+function TableContent({ data, selectedItem, toggleModal }) {
+  const getDeleteRow = (id) => {
+    fetch(`http://3.128.167.221:3120/delete_leads`, {
+      method: "POST",
+      headers: [],
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const rowsItems = data.map((res, index) => (
+    <>
+      <ul className="tableContentRow">
+        <li className="nameCol">{res.agency_name}</li>
+        <li className="locationCol">
+          {res.city === "nan" ? "-" : res.city},{" "}
+          {res.state === "nan" ? "-" : res.state},{" "}
+          {res.address === "nan" ? "-" : res.address}
+        </li>
+        <li className="contactCol">-</li>
+        <li className="phoneCol">
+          {res.phone_number === "nan" ? "-" : res.phone_number}
+        </li>
+        <li className="statusCol">
+          {" "}
+          {res.status === "nan" ? "-" : res.status}
+        </li>
+        <li className="verificationCol">
+          <div className="verLine">
+            <span className="blackTxt">By:</span>
+            {res.verified_by === "nan" ? "-" : res.verified_by}
+          </div>
+          <div className="verLine">
+            <span className="blackTxt">Date:</span>
+            {res.verified_date_time}
+          </div>
+        </li>
+        <li className="iconCol">
+          <a className="iconEdit">
+            <Edit />
+          </a>
+          <a className="iconDelete" onClick={() => {}}>
+            <Trash2 />
+          </a>
+        </li>
+      </ul>
+    </>
+  ));
+
   return (
     <section className="tableSec">
-      <h2 className="subtitle">Oxygen</h2>
+      <h2 className="subtitle">{selectedItem}</h2>
       <div className="tableDesign">
         <ul className="headerBar">
           <li className="nameHead">Name</li>
@@ -16,131 +67,7 @@ function TableContent() {
           <li className="verificationHead">Verification</li>
           <li className="iconHead"></li>
         </ul>
-        <div className="rowSection">
-          <ul className="tableContentRow">
-            <li className="nameCol">
-              OXY99- Portable Oxygen Can, Medical Oxygen Cylinders
-            </li>
-            <li className="locationCol">
-              67, Phase IV, Udyog Vihar, Sector 18, Gurugram, Haryana 122001
-            </li>
-            <li className="contactCol">-</li>
-            <li className="phoneCol">96508 04044</li>
-            <li className="statusCol">Verified</li>
-            <li className="verificationCol">
-              <div className="verLine">
-                <span className="blackTxt">By:</span>
-                Nupur Gupta's friend
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Date:</span>
-                22:30:00
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Time:</span>
-                12/5/2021
-              </div>
-            </li>
-            <li className="iconCol">
-              <a className="iconEdit">
-                <Edit />
-              </a>
-              <a className="iconDelete">
-                <Trash2 />
-              </a>
-            </li>
-          </ul>
-
-          <ul className="tableContentRow">
-            <li className="nameCol">Covid -19 medicines</li>
-            <li className="locationCol">Delhi</li>
-            <li className="contactCol">-</li>
-            <li className="phoneCol">011-22393705</li>
-            <li className="statusCol">-</li>
-            <li className="verificationCol">
-              <div className="verLine">
-                <span className="blackTxt">By:</span>-
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Date:</span>
-                22:30:00
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Time:</span>
-                2021-05-10
-              </div>
-            </li>
-            <li className="iconCol">
-              <a className="iconEdit">
-                <Edit />
-              </a>
-              <a className="iconDelete">
-                <Trash2 />
-              </a>
-            </li>
-          </ul>
-
-          <ul className="tableContentRow">
-            <li className="nameCol">Ambika Sirji Care</li>
-            <li className="locationCol">Dwarka</li>
-            <li className="contactCol">R N Mishra</li>
-            <li className="phoneCol">7947210671</li>
-            <li className="statusCol">Verified</li>
-            <li className="verificationCol">
-              <div className="verLine">
-                <span className="blackTxt">By:</span>
-                Nupur Gupta's friend
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Date:</span>
-                22:30:00
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Time:</span>
-                12/5/2021
-              </div>
-            </li>
-            <li className="iconCol">
-              <a className="iconEdit">
-                <Edit />
-              </a>
-              <a className="iconDelete">
-                <Trash2 />
-              </a>
-            </li>
-          </ul>
-          {/* 
-          <ul className="tableContentRow">
-            <li className="nameCol">Ambika Sirji Care</li>
-            <li className="locationCol">Dwarka</li>
-            <li className="contactCol">R N Mishra</li>
-            <li className="phoneCol">7947210671</li>
-            <li className="statusCol">Verified</li>
-            <li className="verificationCol">
-              <div className="verLine">
-                <span className="blackTxt">By:</span>
-                Nupur Gupta's friend
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Date:</span>
-                22:30:00
-              </div>
-              <div className="verLine">
-                <span className="blackTxt">Time:</span>
-                12/5/2021
-              </div>
-            </li>
-            <li className="iconCol">
-              <a className="iconEdit">
-                <Edit />
-              </a>
-              <a className="iconDelete">
-                <Trash2 />
-              </a>
-            </li>
-          </ul>
-         */}
-        </div>
+        <div className="rowSection">{rowsItems}</div>
       </div>
     </section>
   );
